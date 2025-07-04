@@ -2,3 +2,9 @@
   "name": "Assignw",
   "packageManager": "yarn@4.9.2"
 }
+
+"scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test"
+}

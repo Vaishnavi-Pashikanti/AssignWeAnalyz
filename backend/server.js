@@ -11,7 +11,24 @@ const { authenticateJWT } = require("./middleware/auth");
 dotenv.config(); // Load .env variables
 
 const app = express();
-app.use(cors());
+// ✅ Allow cross-origin requests from frontend
+const allowedOrigins = [
+  "http://localhost:3000",             // Local frontend
+  "https://assignweanalyz.vercel.app"  // Replace with your actual frontend domain if deployed
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
+
 app.use(express.json());
 
 // MongoDB Connection
