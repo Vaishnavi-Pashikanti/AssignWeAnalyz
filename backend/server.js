@@ -25,16 +25,12 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/auth", authRoutes);
 app.use("/api/tickets", authenticateJWT, ticketRoutes);
 
-// Serve frontend if deployed together
-if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "../src/build");
+app.use(express.static(path.join(__dirname, "build")));
 
-  app.use(express.static(buildPath));
+app.get("/*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "build", "index.html"))
+);
 
-  app.get("/*", (req, res) =>
-    res.sendFile(path.resolve(buildPath, "index.html"))
-  );
-}
 
 // Start server
 const PORT = process.env.PORT || 5000;
